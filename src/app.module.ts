@@ -9,6 +9,8 @@ import { User } from './database/entities/user.entity';
 import { Role } from './database/entities/role.entity';
 import { Document } from './database/entities/document.entity';
 import { IngestionTask } from './database/entities/ingestion-task.entity';
+import * as redisStore from 'cache-manager-redis-store';
+import { CacheModule } from '@nestjs/cache-manager';
 import { fetchSecrets, Secrets } from './secret-manager/aws-secret-manager';
 
 @Module({
@@ -35,6 +37,27 @@ import { fetchSecrets, Secrets } from './secret-manager/aws-secret-manager';
         };
       },
       inject: [ConfigService],
+    }),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      isGlobal: true,
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        let password: string = '';
+        const secretName = process.env.SECRET_NAME || 'local';
+
+        if (secretName !== 'local') {
+          const secrets: Secrets = await fetchSecrets(secretName);
+          password = secrets.redistoken || '';
+        }
+        return {
+          store: redisStore,
+          host: process.env.REDIS_HOST,
+          port: parseInt(process.env.REDIS_PORT || '6379', 10),
+          password: password,
+          ttl: 180,
+        };
+      },
     }),
     ControllersModule,
     ServicesModule,

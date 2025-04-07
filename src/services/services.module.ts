@@ -3,7 +3,9 @@ import { AuthService } from './auth.service';
 import { RepositoriesModule } from '../database/repositories/repositories.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '../guards/jwt.strategy';
-
+import { DocumentService } from './document.service';
+import { RedisService } from './redis.service';
+import { S3Service } from './s3.service';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { JwtStrategy } from '../guards/jwt.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService, JwtModule],
+  providers: [AuthService, DocumentService, RedisService, S3Service, JwtStrategy],
+  exports: [AuthService, DocumentService, RedisService, S3Service, JwtModule],
 })
-export class ServicesModule {}
+export class ServicesModule { }
