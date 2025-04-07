@@ -1,98 +1,151 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS Backend (User Management and Document Management)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Purpose
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project is a backend service built using NestJS to manage user authentication, document management, and ingestion controls.
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Documentation
 
-## Project setup
+- [Database Design](./docs/entity-diagram.png)
+- [Architecture](./docs/architecture_diagram.png)
 
+
+## Key Features
+
+### Authentication APIs
+- **Register**: Create a new user account.
+- **Login**: Authenticate users and issue JWT tokens.
+- **Logout**: Invalidate user sessions.
+- **User Roles**: Manage roles such as admin, editor, and viewer.
+
+### User Management APIs
+- **Admin-only functionality**: Manage user roles and permissions.
+
+### Document Management APIs
+- **CRUD Operations**: Create, read, update, and delete documents.
+- **Upload Documents**: Upload and manage document files.
+
+### Ingestion APIs
+- **Ingestion Trigger API**: Trigger the ingestion process in the Python backend via a webhook or API call.
+- **Ingestion Management API**: Track and manage ongoing ingestion processes.
+
+## Tools and Libraries
+- **TypeScript**: For consistent type management.
+- **Postgres**: Recommended database for integration.
+- **JWT**: For authentication and role-based authorization.
+
+---
+
+
+
+---
+
+## Project Setup
+
+### Install Dependencies
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
-
+### Compile and Run the Project
 ```bash
-# development
+# Development mode
 $ npm run start
 
-# watch mode
+# Watch mode
 $ npm run start:dev
 
-# production mode
+# Production mode
 $ npm run start:prod
 ```
 
-## Run tests
+---
 
+## Debugging
+
+To debug the application, use the following command:
 ```bash
-# unit tests
+$ npm run start:debug
+```
+
+---
+
+## Testing
+
+### Run Unit Tests
+```bash
 $ npm run test
+```
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
+### Run Code Coverage
+```bash
 $ npm run test:cov
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Docker Setup
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### Build and Run Docker Container
 ```bash
-$ npm install -g mau
-$ mau deploy
+$ docker build -t document-management .
+$ docker run -p 3000:3000 document-management
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Using Docker Compose
+```bash
+$ docker-compose up
+```
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## API Documentation (Swagger)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The project includes Swagger for API documentation. Once the application is running, you can access the Swagger UI at:
 
-## Support
+### Swagger URL
+```plaintext
+http://localhost:3000/api
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## Key Development Practices and Tools
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. **SOLID Principles**:
+   - Followed SOLID principles to ensure clean and maintainable code.
 
-## License
+2. **Design Patterns**:
+   - Used design patterns like Singleton to ensure efficient resource management.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+3. **Swagger**:
+   - Integrated Swagger for API documentation, enabling easy exploration and testing of APIs.
+
+4. **Redis**:
+   - Used Redis for caching ingestion statuses and improving performance.
+
+5. **Webhook**:
+   - Implemented webhooks to trigger ingestion processes in the Python backend.
+
+6. **Microservice Architecture**:
+   - Designed the application with a microservice architecture, separating authentication, document management, and ingestion services.
+
+7. **Unit Test Coverage**:
+   - Achieved over **80% unit test coverage** to ensure code reliability and maintainability.
+
+8. **ESLint and Prettier**:
+   - Used ESLint and Prettier for consistent code formatting and linting.
+
+9. **GitHub Actions Pipeline**:
+   - Configured a CI/CD pipeline using GitHub Actions for automated testing and deployment.
+
+10. **Docker**:
+    - Created Docker images for containerized deployment and used Docker Compose for multi-container setups.
+
+11. **EC2 Deployment**:
+    - Deployed the application on AWS EC2 instances for scalable and reliable hosting.
+
+12. **AWS Services**:
+    - **S3**: Used for document storage.
+    - **Secrets Manager**: Used for securely managing environment variables.
