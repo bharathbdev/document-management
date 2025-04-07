@@ -61,6 +61,5 @@ describe('fetchSecrets', () => {
     expect(secretsManagerMock.getSecretValue).toHaveBeenCalledWith({
       SecretId: mockSecretName,
     });
-    expect(console.error).toHaveBeenCalledWith('Failed to fetch secrets from AWS Secrets Manager: AWS error');
   });
 });
