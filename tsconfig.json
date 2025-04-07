@@ -16,6 +16,14 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ]
+    }
   }
 }
