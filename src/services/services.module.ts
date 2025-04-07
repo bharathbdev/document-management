@@ -4,6 +4,7 @@ import { RepositoriesModule } from '../database/repositories/repositories.module
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '../guards/jwt.strategy';
 import { DocumentService } from './document.service';
+import { IngestionService } from './ingestionTask.service';
 import { RedisService } from './redis.service';
 import { S3Service } from './s3.service';
 
@@ -15,7 +16,7 @@ import { S3Service } from './s3.service';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, DocumentService, RedisService, S3Service, JwtStrategy],
-  exports: [AuthService, DocumentService, RedisService, S3Service, JwtModule],
+  providers: [AuthService, DocumentService, IngestionService, RedisService, S3Service, JwtStrategy],
+  exports: [AuthService, DocumentService, IngestionService, RedisService, S3Service, JwtModule],
 })
-export class ServicesModule { }
+export class ServicesModule {}

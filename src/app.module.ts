@@ -65,4 +65,4 @@ import { fetchSecrets, Secrets } from './secret-manager/aws-secret-manager';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
