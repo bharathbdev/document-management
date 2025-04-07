@@ -17,25 +17,20 @@ describe('AuthService', () => {
   let roleRepository: jest.Mocked<RoleRepository>;
   let jwtService: jest.Mocked<JwtService>;
 
+  const mockRole = {
+    id: 1,
+    name: 'admin',
+    permissions: [],
+    users: [],
+  };
+
   const mockUser = {
     id: 1,
     username: 'test-user',
     password: 'hashedpassword',
-    role: {
-      id: 1,
-      name: 'admin',
-      permissions: [],
-      users: [],
-    },
+    role: mockRole,
     documents: [],
     ingestionTasks: [],
-  };
-
-  const mockRole = {
-    id: 1,
-    name: 'viewer',
-    permissions: [],
-    users: [],
   };
 
   beforeEach(async () => {
@@ -45,7 +40,7 @@ describe('AuthService', () => {
         {
           provide: UserRepository,
           useValue: {
-            findByUsername: jest.fn(),
+            findByUserName: jest.fn(),
             createUser: jest.fn(),
             saveUser: jest.fn(),
           },
@@ -95,15 +90,14 @@ describe('AuthService', () => {
     });
 
     it('should throw an error if password is invalid', async () => {
-      const mockLoginDto = {
-        username: 'test-user',
-        password: 'wrong-password',
-      };
+      const mockLoginDto = { username: 'test-user', password: 'wrong-password' };
 
       userRepository.findByUserName.mockResolvedValue(mockUser);
       (comparePasswords as jest.Mock).mockResolvedValue(false);
 
-      await expect(authService.login(mockLoginDto)).rejects.toThrow(new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED));
+      await expect(authService.login(mockLoginDto)).rejects.toThrow(
+        new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED),
+      );
       expect(userRepository.findByUserName).toHaveBeenCalledWith(mockLoginDto.username);
       expect(comparePasswords).toHaveBeenCalledWith(mockLoginDto.password, mockUser.password);
     });
@@ -111,10 +105,7 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should register a user successfully', async () => {
-      const mockRegisterDto = {
-        username: 'new-user',
-        password: 'new-password',
-      };
+      const mockRegisterDto = { username: 'new-user', password: 'new-password' };
       const mockNewUser = { ...mockUser, username: 'new-user', role: mockRole };
 
       roleRepository.findByName.mockResolvedValue(mockRole);
@@ -136,35 +127,21 @@ describe('AuthService', () => {
 
       userRepository.findByUserName.mockResolvedValue(mockUser);
       roleRepository.findByName.mockResolvedValue(mockRole);
-      userRepository.saveUser.mockResolvedValue({
-        ...mockUser,
-        role: mockRole,
-      });
+      userRepository.saveUser.mockResolvedValue({ ...mockUser, role: mockRole });
 
       const result = await authService.addUserRole(mockAddRoleDto);
 
       expect(result).toEqual({ ...mockUser, role: mockRole });
       expect(userRepository.findByUserName).toHaveBeenCalledWith(mockAddRoleDto.username);
       expect(roleRepository.findByName).toHaveBeenCalledWith(mockAddRoleDto.roleName);
-      expect(userRepository.saveUser).toHaveBeenCalledWith({
-        ...mockUser,
-        role: mockRole,
-      });
+      expect(userRepository.saveUser).toHaveBeenCalledWith({ ...mockUser, role: mockRole });
     });
   });
 
   describe('createRole', () => {
     it('should create a role successfully', async () => {
-      const mockCreateRoleDto = {
-        roleName: 'editor',
-        permissions: ['read', 'write'],
-      };
-      const mockNewRole = {
-        id: 2,
-        name: 'editor',
-        permissions: ['read', 'write'],
-        users: [],
-      };
+      const mockCreateRoleDto = { roleName: 'editor', permissions: ['read', 'write'] };
+      const mockNewRole = { id: 2, name: 'editor', permissions: ['read', 'write'], users: [] };
 
       roleRepository.createRole.mockResolvedValue(mockNewRole);
 
